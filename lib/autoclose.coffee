@@ -86,7 +86,9 @@ module.exports =
     tagName = strBefore.match(/^.*\<([a-zA-Z0-9-_.]+)[^>]*?/)?[1]
     if !tagName then return
 
-    if text is '>'
+    if text is '>' and tagName is 'input'
+      return  
+    else if text is '>'
       if strBefore[strBefore.length - 1] is '/'
         return
 

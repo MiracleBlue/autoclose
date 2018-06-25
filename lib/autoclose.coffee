@@ -14,16 +14,20 @@ module.exports =
 
   activate: ->
     @subscriptions = new CompositeDisposable
-    atom.config.observe 'autoclose.disabledFileExtensions', (value) =>
-      @disabledFileExtensions = value
+    @subscriptions.add(
+      atom.config.observe 'autoclose.disabledFileExtensions', (value) =>
+        @disabledFileExtensions = value
+    )
 
     @currentEditor = atom.workspace.getActiveTextEditor()
     if @currentEditor
       @action = @currentEditor.onDidInsertText (event) =>
         @_closeTag(event)
     @_getFileExtension()
-    atom.workspace.onDidChangeActivePaneItem (paneItem) =>
-      @_paneItemChanged(paneItem)
+    @subscriptions.add(
+      atom.workspace.onDidChangeActivePaneItem (paneItem) =>
+        @_paneItemChanged(paneItem)
+    )
 
   deactivate: ->
     if @action then @action.disposalAction()

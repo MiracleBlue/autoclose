@@ -77,7 +77,7 @@ module.exports =
 
     if previousTagIndex < 0
       return
-    
+
     tagString = strBefore.substr previousTagIndex
     openedQuotes = (tagString.match(/"/g) || []).length % 2
     openedCurly = (tagString.match(/={/g) || []).length != (tagString.match(/}/g) || []).length

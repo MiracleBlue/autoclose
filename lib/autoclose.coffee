@@ -30,7 +30,7 @@ module.exports =
     )
 
   deactivate: ->
-    if @action then @action.disposalAction()
+    if @action then @action.dispose()
     @subscriptions.dispose()
 
   _getFileExtension: ->
@@ -40,7 +40,7 @@ module.exports =
   _paneItemChanged: (paneItem) ->
     if !paneItem then return
 
-    if @action then @action.disposalAction()
+    if @action then @action.dispose()
     @currentEditor = paneItem
     @_getFileExtension()
     if @currentEditor.onDidInsertText

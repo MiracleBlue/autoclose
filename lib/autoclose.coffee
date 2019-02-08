@@ -14,19 +14,23 @@ module.exports =
 
   activate: ->
     @subscriptions = new CompositeDisposable
-    atom.config.observe 'autoclose.disabledFileExtensions', (value) =>
-      @disabledFileExtensions = value
+    @subscriptions.add(
+      atom.config.observe 'autoclose.disabledFileExtensions', (value) =>
+        @disabledFileExtensions = value
+    )
 
     @currentEditor = atom.workspace.getActiveTextEditor()
     if @currentEditor
       @action = @currentEditor.onDidInsertText (event) =>
         @_closeTag(event)
     @_getFileExtension()
-    atom.workspace.onDidChangeActivePaneItem (paneItem) =>
-      @_paneItemChanged(paneItem)
+    @subscriptions.add(
+      atom.workspace.onDidChangeActivePaneItem (paneItem) =>
+        @_paneItemChanged(paneItem)
+    )
 
   deactivate: ->
-    if @action then @action.disposalAction()
+    if @action then @action.dispose()
     @subscriptions.dispose()
 
   _getFileExtension: ->
@@ -36,7 +40,7 @@ module.exports =
   _paneItemChanged: (paneItem) ->
     if !paneItem then return
 
-    if @action then @action.disposalAction()
+    if @action then @action.dispose()
     @currentEditor = paneItem
     @_getFileExtension()
     if @currentEditor.onDidInsertText
@@ -77,7 +81,7 @@ module.exports =
 
     if previousTagIndex < 0
       return
-    
+
     tagString = strBefore.substr previousTagIndex
     openedQuotes = (tagString.match(/"/g) || []).length % 2
     openedCurly = (tagString.match(/={/g) || []).length != (tagString.match(/}/g) || []).length

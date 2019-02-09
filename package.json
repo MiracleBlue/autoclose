@@ -10,7 +10,7 @@
     "tag",
     "close"
   ],
-  "repository": "https://github.com/MiracleBlue/autoclose-tags",
+  "repository": "git@github.com:MiracleBlue/autoclose-tags.git",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"

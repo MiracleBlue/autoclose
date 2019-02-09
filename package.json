@@ -1,7 +1,7 @@
 {
   "name": "autoclose-tags",
   "main": "./lib/autoclose",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Close html-like tags in all files, all the time.",
   "keywords": [
     "atom",
